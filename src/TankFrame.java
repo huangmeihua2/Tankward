@@ -3,10 +3,13 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class TankFrame extends Frame {
     Tank tank = new Tank(50, 50, Direction.DOWN, this);
-    Bullet bullet = new Bullet(300, 300, Direction.DOWN);
+    List<Bullet> bulletList = new ArrayList<>();
     public final static int GAME_HEIGHT = 600;
     public final static int GAME_WIDTH = 800;
     // 用 窗口画笔的画出结果 置于图片上，就是用图片的画笔将窗口的画出结果画在图片上，然后再将图片画在窗口上。
@@ -35,9 +38,13 @@ public class TankFrame extends Frame {
     @Override
     public void paint(Graphics g) {
         //已经抽象出了一个坦克，但是把画坦克的方法放入到tank里面。
+        g.drawString("子弹数量："+bulletList.size(),10,60);
         tank.paint(g);
-        bullet.paint(g);
-
+        //当没有按开火键的时候，这子弹容器里面是没有子弹的，不会执行。
+        for (int i=0;i<bulletList.size();i++) {
+            //当采用迭代器进行遍历的时候，由于记录了状态，当其他地方进行删除修改操作的时候，不允许的。
+            bulletList.get(i).paint(g);
+        }
     }
 
     //在调用repaint时会先调用这个update，在update里面进行对实际paint的方法拦截，
@@ -117,7 +124,7 @@ public class TankFrame extends Frame {
                 case KeyEvent.VK_DOWN:
                     bd = false;
                     break;
-                case KeyEvent.VK_ALT:
+                case KeyEvent.VK_SPACE:
                     tank.fire();
                     break;
                 default:
