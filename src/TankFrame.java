@@ -5,10 +5,10 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 public class TankFrame extends Frame {
-    Tank tank = new Tank(50, 50, Direction.DOWN);
-
-    public final static int HEIGHT = 600;
-    public final static int WIDTH = 800;
+    Tank tank = new Tank(50, 50, Direction.DOWN, this);
+    Bullet bullet = new Bullet(300, 300, Direction.DOWN);
+    public final static int GAME_HEIGHT = 600;
+    public final static int GAME_WIDTH = 800;
     // 用 窗口画笔的画出结果 置于图片上，就是用图片的画笔将窗口的画出结果画在图片上，然后再将图片画在窗口上。
     Image bufferImage = null;
 
@@ -16,7 +16,7 @@ public class TankFrame extends Frame {
         // 在构造方法中创建了一个窗口，并设定了大小、标题、可见与否、背景颜色等，初始创建窗口的时候会调用paint方法。
         // 然后启用一个线程进行工作，在线程里不断调用repaint方法。
         //setLocation(400, 300);
-        setSize(WIDTH, HEIGHT);
+        setSize(GAME_WIDTH, GAME_HEIGHT);
         setTitle("tank war");
         setResizable(false);
         setBackground(Color.GREEN);
@@ -36,18 +36,20 @@ public class TankFrame extends Frame {
     public void paint(Graphics g) {
         //已经抽象出了一个坦克，但是把画坦克的方法放入到tank里面。
         tank.paint(g);
+        bullet.paint(g);
+
     }
 
     //在调用repaint时会先调用这个update，在update里面进行对实际paint的方法拦截，
     @Override
     public void update(Graphics g) {
         if (bufferImage == null) {
-            bufferImage = this.createImage(WIDTH, HEIGHT);
+            bufferImage = this.createImage(GAME_WIDTH, GAME_HEIGHT);
         }
         Graphics imageGraphis = bufferImage.getGraphics();
         Color color = imageGraphis.getColor(); //前景色
         imageGraphis.setColor(Color.GREEN);
-        imageGraphis.fillRect(0, 0, WIDTH, HEIGHT);
+        imageGraphis.fillRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
         imageGraphis.setColor(color);
         // 画在图片的画布上。
         paint(imageGraphis);
@@ -114,6 +116,9 @@ public class TankFrame extends Frame {
                     break;
                 case KeyEvent.VK_DOWN:
                     bd = false;
+                    break;
+                case KeyEvent.VK_ALT:
+                    tank.fire();
                     break;
                 default:
                     break;

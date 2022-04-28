@@ -1,14 +1,15 @@
 import java.awt.*;
 
 public class Tank {
-    private int x = 50, y = 50;
+    private int x, y;
     private Direction tankDirection = Direction.DOWN;
     private final static int STEP = 5;
+    private TankFrame tankFrame = null;
+    private boolean isMoving = false;
 
     public void setMoving(boolean moving) {
         isMoving = moving;
     }
-    private boolean isMoving = false;
 
     public void setTankDirection(Direction tankDirection) {
         this.tankDirection = tankDirection;
@@ -34,10 +35,11 @@ public class Tank {
         return y;
     }
 
-    public Tank(int x, int y, Direction tankDirection) {
+    public Tank(int x, int y, Direction tankDirection, TankFrame tankFrame) {
         this.x = x;
         this.y = y;
         this.tankDirection = tankDirection;
+        this.tankFrame = tankFrame;
     }
 
     public void paint(Graphics g) {
@@ -77,5 +79,9 @@ public class Tank {
                 y += STEP;
                 break;
         }
+    }
+
+    public void fire() {
+        tankFrame.bullet = new Bullet(this.x+25, this.y+25, this.tankDirection);
     }
 }
