@@ -1,3 +1,5 @@
+package com.tank;
+
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -8,8 +10,9 @@ import java.util.List;
 
 
 public class TankFrame extends Frame {
-    Tank tank = new Tank(50, 50, Direction.DOWN, this);
+    Tank myTank = new Tank(200, 200, Direction.DOWN, this);
     List<Bullet> bulletList = new ArrayList<>();
+    List<Tank> tanks = new ArrayList<>();
     public final static int GAME_HEIGHT = 600;
     public final static int GAME_WIDTH = 800;
     // 用 窗口画笔的画出结果 置于图片上，就是用图片的画笔将窗口的画出结果画在图片上，然后再将图片画在窗口上。
@@ -20,7 +23,7 @@ public class TankFrame extends Frame {
         // 然后启用一个线程进行工作，在线程里不断调用repaint方法。
         //setLocation(400, 300);
         setSize(GAME_WIDTH, GAME_HEIGHT);
-        setTitle("tank war");
+        setTitle("myTank war");
         setResizable(false);
         setBackground(Color.GREEN);
         setVisible(true);
@@ -38,12 +41,22 @@ public class TankFrame extends Frame {
     @Override
     public void paint(Graphics g) {
         //已经抽象出了一个坦克，但是把画坦克的方法放入到tank里面。
-        g.drawString("子弹数量："+bulletList.size(),10,60);
-        tank.paint(g);
+        g.drawString("子弹数量：" + bulletList.size(), 10, 60);
+        g.drawString("敌方数量："+tanks.size(),10,100);
+        myTank.paint(g);
+        for (int i = 0; i < tanks.size(); i++) {
+            tanks.get(i).paint(g);
+        }
         //当没有按开火键的时候，这子弹容器里面是没有子弹的，不会执行。
-        for (int i=0;i<bulletList.size();i++) {
+        for (int i = 0; i < bulletList.size(); i++) {
             //当采用迭代器进行遍历的时候，由于记录了状态，当其他地方进行删除修改操作的时候，不允许的。
             bulletList.get(i).paint(g);
+        }
+
+        for(int i=0;i<bulletList.size();i++){
+            for(int j=0;j<tanks.size();j++){
+                bulletList.get(i).isCollideWithTank(tanks.get(j));
+            }
         }
     }
 
@@ -55,7 +68,7 @@ public class TankFrame extends Frame {
         }
         Graphics imageGraphis = bufferImage.getGraphics();
         Color color = imageGraphis.getColor(); //前景色
-        imageGraphis.setColor(Color.GREEN);
+        imageGraphis.setColor(Color.RED);
         imageGraphis.fillRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
         imageGraphis.setColor(color);
         // 画在图片的画布上。
@@ -125,7 +138,7 @@ public class TankFrame extends Frame {
                     bd = false;
                     break;
                 case KeyEvent.VK_SPACE:
-                    tank.fire();
+                    myTank.fire();
                     break;
                 default:
                     break;
@@ -137,13 +150,13 @@ public class TankFrame extends Frame {
         private void setTankDirection() {
             if (!bl && !bu && !br && !bd) {
                 //没有按键，都是false,就停止移动,设为false。
-                tank.setMoving(false);
+                myTank.setMoving(false);
             } else {
-                tank.setMoving(true);
-                if (bl) tank.setTankDirection(Direction.LEFT);
-                if (bu) tank.setTankDirection(Direction.UP);
-                if (br) tank.setTankDirection(Direction.RIGHT);
-                if (bd) tank.setTankDirection(Direction.DOWN);
+                myTank.setMoving(true);
+                if (bl) myTank.setTankDirection(Direction.LEFT);
+                if (bu) myTank.setTankDirection(Direction.UP);
+                if (br) myTank.setTankDirection(Direction.RIGHT);
+                if (bd) myTank.setTankDirection(Direction.DOWN);
             }
         }
     }
