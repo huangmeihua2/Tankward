@@ -5,7 +5,7 @@ import java.awt.*;
 public class Bullet {
     private int x,y;
     private Direction bulletDirection;
-    private static final int STEP = 10;
+    private static final int STEP = 15;
     private boolean live = true;
     private Group group;
     private int WIDHT = ResourceManager.bulletD.getWidth();

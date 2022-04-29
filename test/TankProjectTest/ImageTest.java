@@ -14,7 +14,7 @@ public class ImageTest {
     void test(){
         try {
             //BufferedImage bufferedImage = ImageIO.read(new File(""));
-            BufferedImage image1 = ImageIO.read(getClass().getResource("/images/bulletD.gif"));
+            BufferedImage image1 = ImageIO.read(getClass().getResource("/images/GoodTank1.png"));
             assertNotNull(image1);
             //类的加载
         } catch (IOException e) {

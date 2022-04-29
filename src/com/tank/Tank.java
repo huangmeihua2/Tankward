@@ -64,16 +64,20 @@ public class Tank {
         }
         switch(tankDirection){
             case LEFT:
-                g.drawImage(ResourceManager.tankL,x,y,null);
+                if(this.group==Group.mainTank)  g.drawImage(ResourceManager.tankL,x,y,null);
+                else g.drawImage(ResourceManager.btankL,x,y,null);
                 break;
             case RIGHT:
-                g.drawImage(ResourceManager.tankR,x,y,null);
+                if(this.group==Group.mainTank)  g.drawImage(ResourceManager.tankR,x,y,null);
+                else g.drawImage(ResourceManager.btankR,x,y,null);
                 break;
             case UP:
-                g.drawImage(ResourceManager.tankU,x,y,null);
+                if(this.group==Group.mainTank)  g.drawImage(ResourceManager.tankU,x,y,null);
+                else g.drawImage(ResourceManager.btankU,x,y,null);
                 break;
             case DOWN:
-                g.drawImage(ResourceManager.tankD,x,y,null);
+                if(this.group==Group.mainTank)  g.drawImage(ResourceManager.tankD,x,y,null);
+                else g.drawImage(ResourceManager.btankD,x,y,null);
                 break;
         }
        /* if(x>800){
@@ -101,7 +105,7 @@ public class Tank {
                 break;
         }
         // 对于设为true的所有坦克都是自动按频率调用开火，对于接受按键控制移动的坦克，则会根据按控件的速度来发射。
-        if(random.nextInt(10) > 8) this.fire();
+        if(this.group==Group.otherTank&&random.nextInt(10) > 8) this.fire();
     }
 
     public void fire() {
