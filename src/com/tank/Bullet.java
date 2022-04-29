@@ -7,18 +7,21 @@ public class Bullet {
     private Direction bulletDirection;
     private static final int STEP = 10;
     private boolean live = true;
+    private Group group;
     private int WIDHT = ResourceManager.bulletD.getWidth();
     private int HIGHT = ResourceManager.bulletD.getHeight();
     TankFrame tankFrame = null;
-    public Bullet(int x, int y, Direction direction,TankFrame tankFrame) {
+    public Bullet(int x, int y, Direction direction,TankFrame tankFrame,Group group) {
         this.x = x;
         this.y = y;
         this.bulletDirection = direction;
         this.tankFrame = tankFrame;
+        this.group = group;
     }
     //画每一颗子弹的时候都会调用这个
     public void paint(Graphics g) {
         if(!live){
+            // 碰撞了的坦克就会被移除，那么下个循环中进行画布的时候，该坦克就不会被画出了。
             tankFrame.bulletList.remove(this);
             return;
         }
@@ -62,11 +65,15 @@ public class Bullet {
     }
 
     public void isCollideWithTank(Tank tank) {
+        if(this.group == tank.getGroup()){
+            return; //子弹不消灭己方
+        }
         Rectangle bulletRec = new Rectangle(this.x,this.y,WIDHT,HIGHT);
         Rectangle tankRec = new Rectangle(tank.getX(),tank.getY(),tank.WIDHT,tank.HEIGHT);
         if(bulletRec.intersects(tankRec)){
             this.die();
             tank.die();
+            tankFrame.explodeList.add(new Explode(x,y,tankFrame));
         }
     }
 

@@ -10,11 +10,12 @@ import java.util.List;
 
 
 public class TankFrame extends Frame {
-    Tank myTank = new Tank(200, 200, Direction.DOWN, this);
-    List<Bullet> bulletList = new ArrayList<>();
+    Tank myTank = new Tank(200, 200, Direction.UP, this,Group.mainTank,false);
+    List<Bullet> bulletList = new ArrayList<>();  // 也类似生产者消费者模式中的缓存区。
     List<Tank> tanks = new ArrayList<>();
-    public final static int GAME_HEIGHT = 600;
-    public final static int GAME_WIDTH = 800;
+    List<Explode> explodeList = new ArrayList<>();
+    public final static int GAME_HEIGHT = 720;
+    public final static int GAME_WIDTH = 1080;
     // 用 窗口画笔的画出结果 置于图片上，就是用图片的画笔将窗口的画出结果画在图片上，然后再将图片画在窗口上。
     Image bufferImage = null;
 
@@ -25,7 +26,7 @@ public class TankFrame extends Frame {
         setSize(GAME_WIDTH, GAME_HEIGHT);
         setTitle("myTank war");
         setResizable(false);
-        setBackground(Color.GREEN);
+        setBackground(Color.BLACK);
         setVisible(true);
         this.addKeyListener(new KeyMonitor()); //在对象上添加了监控，即在TankFrame对象上添加了监控。
         addWindowListener(new WindowAdapter() {
@@ -41,6 +42,7 @@ public class TankFrame extends Frame {
     @Override
     public void paint(Graphics g) {
         //已经抽象出了一个坦克，但是把画坦克的方法放入到tank里面。
+        g.setColor(Color.RED);
         g.drawString("子弹数量：" + bulletList.size(), 10, 60);
         g.drawString("敌方数量："+tanks.size(),10,100);
         myTank.paint(g);
@@ -52,12 +54,16 @@ public class TankFrame extends Frame {
             //当采用迭代器进行遍历的时候，由于记录了状态，当其他地方进行删除修改操作的时候，不允许的。
             bulletList.get(i).paint(g);
         }
-
+        for (int i = 0; i < explodeList.size(); i++) {
+            //当采用迭代器进行遍历的时候，由于记录了状态，当其他地方进行删除修改操作的时候，不允许的。
+            explodeList.get(i).paint(g);
+        }
         for(int i=0;i<bulletList.size();i++){
             for(int j=0;j<tanks.size();j++){
                 bulletList.get(i).isCollideWithTank(tanks.get(j));
             }
         }
+
     }
 
     //在调用repaint时会先调用这个update，在update里面进行对实际paint的方法拦截，
@@ -68,7 +74,7 @@ public class TankFrame extends Frame {
         }
         Graphics imageGraphis = bufferImage.getGraphics();
         Color color = imageGraphis.getColor(); //前景色
-        imageGraphis.setColor(Color.RED);
+        imageGraphis.setColor(Color.BLACK);
         imageGraphis.fillRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
         imageGraphis.setColor(color);
         // 画在图片的画布上。
