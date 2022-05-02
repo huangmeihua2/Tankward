@@ -14,7 +14,11 @@ public class Tank {
 
     private TankFireStrategy tankFireStrategy = new DefaultTankFireStrategy();
 
-    private TankFrame tankFrame = null;
+    public GameModel getGameModel() {
+        return gameModel;
+    }
+
+    private GameModel gameModel = null;
     private boolean isMoving;
     private boolean live = true;
     Rectangle tankRec = new Rectangle();
@@ -48,9 +52,7 @@ public class Tank {
         return tankDirection;
     }
 
-    public TankFrame getTankFrame() {
-        return tankFrame;
-    }
+
 
     public int getX() {
         return x;
@@ -60,11 +62,11 @@ public class Tank {
         return y;
     }
 
-    public Tank(int x, int y, Direction tankDirection, TankFrame tankFrame, Group group, boolean isMoving) {
+    public Tank(int x, int y, Direction tankDirection, GameModel gameModel, Group group, boolean isMoving) {
         this.x = x;
         this.y = y;
         this.tankDirection = tankDirection;
-        this.tankFrame = tankFrame;
+        this.gameModel = gameModel;
         this.group = group;
         this.isMoving = isMoving;
         this.tankRec.x = x;
@@ -76,7 +78,7 @@ public class Tank {
     public void paint(Graphics g) {
         // 当坦克的存活状态为false的时候，是不画出来的在快速迭代画布的时候就没有该坦克了。
         if (!live) {
-            tankFrame.tanks.remove(this);
+            gameModel.tanks.remove(this);
             return;
         }
         switch (tankDirection) {
@@ -133,8 +135,8 @@ public class Tank {
     private void boundCheck() {
         if (x < 2) x = 3;
         if (y < 30) y = 32;
-        if (x > tankFrame.getWidth() - 45) x = tankFrame.getWidth() - 45;
-        if (y > tankFrame.getHeight() - 45) y = tankFrame.getHeight() - 45;
+        if (x > GameModel.GAME_WIDTH - 45) x =  GameModel.GAME_WIDTH - 45;
+        if (y > GameModel.GAME_HEIGHT - 45) y = GameModel.GAME_HEIGHT - 45;
     }
 
     private void randDirection() {

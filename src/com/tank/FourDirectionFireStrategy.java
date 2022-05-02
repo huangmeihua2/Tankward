@@ -25,7 +25,7 @@ public class FourDirectionFireStrategy implements TankFireStrategy {
         }
         Direction[] directions = Direction.values();
         for (Direction direction : directions) {
-            tank.getTankFrame().bulletList.add(new Bullet(bx, by, direction, tank.getTankFrame(), tank.getGroup())); //给对应的坦克对象创建子弹。
+            tank.getGameModel().bulletList.add(new Bullet(bx, by, direction, tank.getGameModel(), tank.getGroup())); //给对应的坦克对象创建子弹。
         }
 
     }

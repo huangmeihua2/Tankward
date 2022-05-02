@@ -23,7 +23,7 @@ public class DefaultTankFireStrategy implements TankFireStrategy {
                 by += tank.HEIGHT/2 -ResourceManager.bulletD.getHeight()/2;
                 break;
         }
-        tank.getTankFrame().bulletList.add(new Bullet(bx, by, tank.getTankDirection(),tank.getTankFrame(),tank.getGroup())); //给对应的坦克对象创建子弹。
+        tank.getGameModel().bulletList.add(new Bullet(bx, by, tank.getTankDirection(),tank.getGameModel(),tank.getGroup())); //给对应的坦克对象创建子弹。
 
     }
 }

@@ -15,12 +15,12 @@ public class Bullet {
     private Group group;
     private int WIDHT = ResourceManager.bulletD.getWidth();
     private int HIGHT = ResourceManager.bulletD.getHeight();
-    TankFrame tankFrame = null;
-    public Bullet(int x, int y, Direction direction,TankFrame tankFrame,Group group) {
+    GameModel gameModel = null;
+    public Bullet(int x, int y, Direction direction,GameModel gameModel,Group group) {
         this.x = x;
         this.y = y;
         this.bulletDirection = direction;
-        this.tankFrame = tankFrame;
+        this.gameModel = gameModel;
         this.group = group;
         bulletRec.x = x;
         bulletRec.y = y;
@@ -31,7 +31,7 @@ public class Bullet {
     public void paint(Graphics g) {
         if(!live){
             // 碰撞了的坦克就会被移除，那么下个循环中进行画布的时候，该坦克就不会被画出了。
-            tankFrame.bulletList.remove(this);
+            gameModel.bulletList.remove(this);
             return;
         }
         switch (bulletDirection){
@@ -70,7 +70,7 @@ public class Bullet {
                 break;
         }
         //超出边界了重新定义存活状态。
-        if(x<0||x>tankFrame.GAME_WIDTH||y<0||y>tankFrame.GAME_HEIGHT) live = false;
+        if(x<0||x>gameModel.GAME_WIDTH||y<0||y>gameModel.GAME_HEIGHT) live = false;
         this.bulletRec.x = x;
         this.bulletRec.y = y;
     }
@@ -82,7 +82,7 @@ public class Bullet {
         if(this.bulletRec.intersects(tank.tankRec)){
             this.die();
             tank.die();
-            tankFrame.explodeList.add(new Explode(tank.getX()+tank.WIDHT/2-Explode.WIDHT/2,tank.getY()+tank.HEIGHT-Explode.HIGHT,tankFrame));
+            gameModel.explodeList.add(new Explode(tank.getX()+tank.WIDHT/2-Explode.WIDHT/2,tank.getY()+tank.HEIGHT-Explode.HIGHT,gameModel));
             new Thread(()->new Audio("/audio/explode.wav").play()).start();
         }
     }
