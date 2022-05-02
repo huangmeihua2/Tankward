@@ -52,7 +52,8 @@ public class TankFrame extends Frame {
         //当没有按开火键的时候，这子弹容器里面是没有子弹的，不会执行。
         for (int i = 0; i < bulletList.size(); i++) {
             //当采用迭代器进行遍历的时候，由于记录了状态，当其他地方进行删除修改操作的时候，不允许的。
-            bulletList.get(i).paint(g);
+            Bullet cur = bulletList.get(i);
+            cur.paint(g);
         }
         for (int i = 0; i < explodeList.size(); i++) {
             //当采用迭代器进行遍历的时候，由于记录了状态，当其他地方进行删除修改操作的时候，不允许的。
@@ -124,6 +125,7 @@ public class TankFrame extends Frame {
                     break;
             }
             setTankDirection();
+            new Thread(()->new Audio("/audio/tank_move.wav").play()).start();
         }
 
         @Override
@@ -145,6 +147,13 @@ public class TankFrame extends Frame {
                     break;
                 case KeyEvent.VK_SPACE:
                     myTank.fire();
+                    new Thread(() ->new Audio("/audio/tank_fire.wav").play()).start();
+                    break;
+                case KeyEvent.VK_CONTROL:
+                    myTank.setTankFireStrategy(new FourDirectionFireStrategy());
+                    break;
+                case KeyEvent.VK_SHIFT:
+                    myTank.setTankFireStrategy(new DefaultTankFireStrategy());
                     break;
                 default:
                     break;
@@ -166,6 +175,5 @@ public class TankFrame extends Frame {
             }
         }
     }
-
 
 }

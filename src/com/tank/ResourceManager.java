@@ -5,6 +5,14 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 public class ResourceManager {
+    private static ResourceManager resourceManager = new ResourceManager();
+
+    private ResourceManager() {
+
+    }
+    public static ResourceManager getResourceManager(){
+        return  resourceManager;
+    }
     public static BufferedImage tankL, tankR, tankU, tankD;
     public static BufferedImage btankL, btankR, btankU, btankD;
     public static BufferedImage bulletL, bulletR, bulletU, bulletD;

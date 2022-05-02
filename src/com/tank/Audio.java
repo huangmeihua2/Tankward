@@ -46,7 +46,7 @@ public class Audio {
 
 	public Audio(String fileName) {
 		try {
-			audioInputStream = AudioSystem.getAudioInputStream(Audio.class.getClassLoader().getResource(fileName));
+			audioInputStream = AudioSystem.getAudioInputStream(Audio.class.getResource(fileName));
 			audioFormat = audioInputStream.getFormat();
 			dataLine_info = new DataLine.Info(SourceDataLine.class, audioFormat);
 			sourceDataLine = (SourceDataLine) AudioSystem.getLine(dataLine_info);
@@ -90,9 +90,9 @@ public class Audio {
 	}
 
 	public static void main(String[] args) {
-		// Audio a = new Audio("audio/explode.wav");
-		Audio a = new Audio("audio/war1.wav");
-		a.loop();
+		Audio b = new Audio("/audio/explode.wav");
+		Audio a = new Audio("/audio/war1.wav");
+		b.play();
 
 	}
 

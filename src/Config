@@ -1,0 +1,3 @@
+intiallTankCount=10
+mainTankFire=com.tank.FourDirectionFireStrategy
+otherTankFire=com.tank.DefaultTankFireStrategy

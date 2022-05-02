@@ -7,6 +7,11 @@ public class Bullet {
     private Direction bulletDirection;
     private static final int STEP = 15;
     private boolean live = true;
+    Rectangle bulletRec = new Rectangle();
+    public Group getGroup() {
+        return group;
+    }
+
     private Group group;
     private int WIDHT = ResourceManager.bulletD.getWidth();
     private int HIGHT = ResourceManager.bulletD.getHeight();
@@ -17,6 +22,10 @@ public class Bullet {
         this.bulletDirection = direction;
         this.tankFrame = tankFrame;
         this.group = group;
+        bulletRec.x = x;
+        bulletRec.y = y;
+        bulletRec.width = WIDHT;
+        bulletRec.height = HIGHT;
     }
     //画每一颗子弹的时候都会调用这个
     public void paint(Graphics g) {
@@ -62,18 +71,19 @@ public class Bullet {
         }
         //超出边界了重新定义存活状态。
         if(x<0||x>tankFrame.GAME_WIDTH||y<0||y>tankFrame.GAME_HEIGHT) live = false;
+        this.bulletRec.x = x;
+        this.bulletRec.y = y;
     }
 
     public void isCollideWithTank(Tank tank) {
         if(this.group == tank.getGroup()){
-            return; //子弹不消灭己方
+            return; // 子弹不消灭己方
         }
-        Rectangle bulletRec = new Rectangle(this.x,this.y,WIDHT,HIGHT);
-        Rectangle tankRec = new Rectangle(tank.getX(),tank.getY(),tank.WIDHT,tank.HEIGHT);
-        if(bulletRec.intersects(tankRec)){
+        if(this.bulletRec.intersects(tank.tankRec)){
             this.die();
             tank.die();
-            tankFrame.explodeList.add(new Explode(x,y,tankFrame));
+            tankFrame.explodeList.add(new Explode(tank.getX()+tank.WIDHT/2-Explode.WIDHT/2,tank.getY()+tank.HEIGHT-Explode.HIGHT,tankFrame));
+            new Thread(()->new Audio("/audio/explode.wav").play()).start();
         }
     }
 

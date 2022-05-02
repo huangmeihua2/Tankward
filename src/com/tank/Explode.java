@@ -6,8 +6,8 @@ public class Explode {
     private int x,y;
     private  int step = 0;
     private boolean live = true;
-    private int WIDHT = ResourceManager.explodes[0].getWidth();
-    private int HIGHT = ResourceManager.explodes[0].getHeight();
+    public static final int WIDHT = ResourceManager.explodes[0].getWidth();
+    public static final int HIGHT = ResourceManager.explodes[0].getHeight();
     TankFrame tankFrame = null;
     public Explode(int x, int y, TankFrame tankFrame) {
         this.x = x;
