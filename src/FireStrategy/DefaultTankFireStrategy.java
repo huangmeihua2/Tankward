@@ -1,4 +1,8 @@
-package com.tank;
+package FireStrategy;
+
+import com.tank.Bullet;
+import com.tank.ResourceManager;
+import com.tank.Tank;
 
 public class DefaultTankFireStrategy implements TankFireStrategy {
     @Override
@@ -23,7 +27,7 @@ public class DefaultTankFireStrategy implements TankFireStrategy {
                 by += tank.HEIGHT/2 -ResourceManager.bulletD.getHeight()/2;
                 break;
         }
-        tank.getGameModel().bulletList.add(new Bullet(bx, by, tank.getTankDirection(),tank.getGameModel(),tank.getGroup())); //给对应的坦克对象创建子弹。
+        tank.getGameModel().gameObjectList.add(new Bullet(bx, by, tank.getTankDirection(),tank.getGameModel(),tank.getGroup())); //给对应的坦克对象创建子弹。
 
     }
 }

@@ -1,13 +1,16 @@
 package com.tank;
 
+import FireStrategy.DefaultTankFireStrategy;
+import FireStrategy.TankFireStrategy;
+
 import java.awt.*;
 import java.util.Random;
 
-public class Tank {
-    private int x, y;
+public class Tank extends GameObject{
     private Direction tankDirection = Direction.DOWN;
     private final static int STEP = 5;
-
+    int Fx,Fy;
+    Direction fDir;
     public void setTankFireStrategy(TankFireStrategy tankFireStrategy) {
         this.tankFireStrategy = tankFireStrategy;
     }
@@ -21,7 +24,7 @@ public class Tank {
     private GameModel gameModel = null;
     private boolean isMoving;
     private boolean live = true;
-    Rectangle tankRec = new Rectangle();
+    public Rectangle tankRec = new Rectangle();
 
     public Group getGroup() {
         return group;
@@ -74,11 +77,11 @@ public class Tank {
         this.tankRec.width = WIDHT;
         this.tankRec.height = HEIGHT;
     }
-
+    @Override
     public void paint(Graphics g) {
         // 当坦克的存活状态为false的时候，是不画出来的在快速迭代画布的时候就没有该坦克了。
         if (!live) {
-            gameModel.tanks.remove(this);
+            gameModel.gameObjectList.remove(this);
             return;
         }
         switch (tankDirection) {
@@ -110,18 +113,24 @@ public class Tank {
         // 按下就移动对应的一个step，弹起后就会设定为false的。所以发射子弹是根据其按键速度来发射的。
         if (!isMoving) return;
         if (!live) return;
+        Fx = x;
+        Fy = y;
         switch (tankDirection) {
             case LEFT:
                 x -= STEP;
+                fDir = Direction.LEFT;
                 break;
             case RIGHT:
                 x += STEP;
+                fDir = Direction.RIGHT;
                 break;
             case UP:
                 y -= STEP;
+                fDir = Direction.UP;
                 break;
             case DOWN:
                 y += STEP;
+                fDir = Direction.DOWN;
                 break;
         }
         // 对于设为true的所有坦克都是自动按频率调用开火，对于接受按键控制移动的坦克，则会根据按控件的速度来发射。
@@ -130,6 +139,7 @@ public class Tank {
         boundCheck();
         this.tankRec.x = x;
         this.tankRec.y = y;
+
     }
 
     private void boundCheck() {
@@ -149,5 +159,10 @@ public class Tank {
 
     public void die() {
         this.live = false;
+    }
+
+    public void moveForemerStep() {
+        x = Fx;
+        y = Fy;
     }
 }

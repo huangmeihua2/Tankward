@@ -17,6 +17,7 @@ public class ResourceManager {
     public static BufferedImage btankL, btankR, btankU, btankD;
     public static BufferedImage bulletL, bulletR, bulletU, bulletD;
     public static BufferedImage[] explodes = new BufferedImage[16];
+    public static BufferedImage[] walls = new BufferedImage[3];
     static {
         try {
             tankU = ImageIO.read(ResourceManager.class.getResource("/images/GoodTank1.png"));
@@ -34,6 +35,10 @@ public class ResourceManager {
             for(int i = 0;i<16;i++){
                 explodes[i] = ImageIO.read(ResourceManager.class.getResource("/images/e"+(i+1)+".gif"));
             }
+            for(int i = 0;i<3;i++){
+                walls[i] = ImageIO.read(ResourceManager.class.getResource("/images/wall"+(i+1)+".png"));
+            }
+
         } catch (IOException e) {
             e.printStackTrace();
         }

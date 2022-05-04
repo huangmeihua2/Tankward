@@ -4,30 +4,30 @@ import java.io.IOException;
 import java.util.Properties;
 
 public class PropertyConfig {
-
     private static PropertyConfig propertyConfig;
     private Properties properties = new Properties();
+    private Properties getColliderConfigProperties = new Properties();
     private PropertyConfig() {
         try {
             properties.load(getClass().getResourceAsStream("/Config"));
+            getColliderConfigProperties.load(getClass().getResourceAsStream("/ColliderConfig"));
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public static PropertyConfig getPropertyConfig(){
-        if(propertyConfig==null){
-            synchronized (PropertyConfig.class){
-                if(propertyConfig==null) propertyConfig = new PropertyConfig();
+    public static PropertyConfig getPropertyConfig() {
+        if (propertyConfig == null) {
+            synchronized (PropertyConfig.class) {
+                if (propertyConfig == null) propertyConfig = new PropertyConfig();
             }
         }
         return propertyConfig;
     }
-    public Object getValue(String key){
-        return properties.getProperty(key);
+    public Object[] getColliderConfig(){
+        return getColliderConfigProperties.values().toArray();
     }
-    public static void main(String[] args) {
-        PropertyConfig propertyConfig = PropertyConfig.getPropertyConfig();
-        System.out.println(propertyConfig.properties.getProperty("intiallTankCount"));
+    public Object getValue(String key) {
+        return properties.getProperty(key);
     }
 }

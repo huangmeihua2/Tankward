@@ -1,12 +1,12 @@
 package TankProjectTest;
 
 import com.tank.PropertyConfig;
-import com.tank.TankFireStrategy;
+import FireStrategy.TankFireStrategy;
+import com.tank.ResourceManager;
 import org.junit.jupiter.api.Test;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Random;
@@ -16,6 +16,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 public class ImageTest {
     private Random random = new Random();
     PropertyConfig propertyConfig = PropertyConfig.getPropertyConfig();
+    ResourceManager resourceManager = ResourceManager.getResourceManager();
 
     @Test
     void test() {
@@ -34,5 +35,10 @@ public class ImageTest {
         String mainFire = (String) propertyConfig.getValue("mainTankFire");
         TankFireStrategy tankFireStrategy = (TankFireStrategy) Class.forName(mainFire).getDeclaredConstructor().newInstance();
         assertNotNull(tankFireStrategy);
+    }
+    @Test
+    void test2() throws ClassNotFoundException, NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
+        System.out.println(resourceManager.tankU.getWidth());
+        System.out.println(resourceManager.tankU.getHeight());
     }
 }

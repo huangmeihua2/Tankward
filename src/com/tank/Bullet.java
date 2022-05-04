@@ -2,12 +2,11 @@ package com.tank;
 
 import java.awt.*;
 
-public class Bullet {
-    private int x,y;
+public class Bullet extends GameObject{
     private Direction bulletDirection;
     private static final int STEP = 15;
     private boolean live = true;
-    Rectangle bulletRec = new Rectangle();
+    public Rectangle bulletRec = new Rectangle();
     public Group getGroup() {
         return group;
     }
@@ -28,10 +27,11 @@ public class Bullet {
         bulletRec.height = HIGHT;
     }
     //画每一颗子弹的时候都会调用这个
+    @Override
     public void paint(Graphics g) {
         if(!live){
             // 碰撞了的坦克就会被移除，那么下个循环中进行画布的时候，该坦克就不会被画出了。
-            gameModel.bulletList.remove(this);
+            gameModel.gameObjectList.remove(this);
             return;
         }
         switch (bulletDirection){
@@ -82,12 +82,12 @@ public class Bullet {
         if(this.bulletRec.intersects(tank.tankRec)){
             this.die();
             tank.die();
-            gameModel.explodeList.add(new Explode(tank.getX()+tank.WIDHT/2-Explode.WIDHT/2,tank.getY()+tank.HEIGHT-Explode.HIGHT,gameModel));
+            gameModel.gameObjectList.add(new Explode(tank.getX()+tank.WIDHT/2-Explode.WIDHT/2,tank.getY()+tank.HEIGHT-Explode.HIGHT,gameModel));
             new Thread(()->new Audio("/audio/explode.wav").play()).start();
         }
     }
 
-    private void die() {
+    public void die() {
         this.live = false;
     }
 }

@@ -1,0 +1,4 @@
+collider1=collision.detection.TankAndBulletCollider
+collider2=collision.detection.TankAndTankCollider
+collider3=collision.detection.WallAndBullet
+collider4=collision.detection.TankAndWallCollider

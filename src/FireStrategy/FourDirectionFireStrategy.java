@@ -1,4 +1,6 @@
-package com.tank;
+package FireStrategy;
+
+import com.tank.*;
 
 public class FourDirectionFireStrategy implements TankFireStrategy {
     @Override
@@ -25,7 +27,7 @@ public class FourDirectionFireStrategy implements TankFireStrategy {
         }
         Direction[] directions = Direction.values();
         for (Direction direction : directions) {
-            tank.getGameModel().bulletList.add(new Bullet(bx, by, direction, tank.getGameModel(), tank.getGroup())); //给对应的坦克对象创建子弹。
+            tank.getGameModel().gameObjectList.add(new Bullet(bx, by, direction, tank.getGameModel(), tank.getGroup())); //给对应的坦克对象创建子弹。
         }
 
     }
