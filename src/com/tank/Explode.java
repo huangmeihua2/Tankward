@@ -1,8 +1,8 @@
 package com.tank;
 
 import java.awt.*;
-
-public class Explode extends GameObject{
+//一个类不能进行多继承的。
+public class Explode extends GameObject {
     private  int step = 0;
     private boolean live = true;
     public static final int WIDHT = ResourceManager.explodes[0].getWidth();

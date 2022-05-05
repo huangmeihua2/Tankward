@@ -49,7 +49,7 @@ public class TankFrame extends Frame {
         }
         Graphics imageGraphis = bufferImage.getGraphics();
         Color color = imageGraphis.getColor(); //前景色
-        imageGraphis.setColor(Color.BLACK);
+        imageGraphis.setColor(Color.GREEN);
         imageGraphis.fillRect(0, 0, GameModel.GAME_WIDTH, GameModel.GAME_HEIGHT);
         imageGraphis.setColor(color);
         // 画在图片的画布上。

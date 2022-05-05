@@ -2,9 +2,13 @@ package com.tank;
 
 import FireStrategy.DefaultTankFireStrategy;
 import FireStrategy.TankFireStrategy;
+import Observers.EventFire;
+import Observers.FireActuralObserver;
+import Observers.Observer;
 
 import java.awt.*;
-import java.util.Random;
+import java.util.*;
+import java.util.List;
 
 public class Tank extends GameObject{
     private Direction tankDirection = Direction.DOWN;
@@ -107,7 +111,7 @@ public class Tank extends GameObject{
         }else  x +=5;*/
         moveTank();  //用于改变坦克图片的x,y的位置。
     }
-
+    private List<Observer> observerList = Arrays.asList(new FireActuralObserver());
     private void moveTank() {
         // 对于主坦克是只有按键按下去的时候，也就是里面的状态变量为真时才会移动,但是当抬起按键后又会被设为false。
         // 按下就移动对应的一个step，弹起后就会设定为false的。所以发射子弹是根据其按键速度来发射的。
@@ -134,7 +138,12 @@ public class Tank extends GameObject{
                 break;
         }
         // 对于设为true的所有坦克都是自动按频率调用开火，对于接受按键控制移动的坦克，则会根据按控件的速度来发射。
-        if (this.group == Group.otherTank && random.nextInt(10) > 8) this.fire();
+        if (this.group == Group.otherTank && random.nextInt(10) > 8) {
+            for(Observer observer:observerList){
+                observer.actionFire(new EventFire(this));
+            }
+           // this.fire();
+        }
         if (this.group == Group.otherTank && random.nextInt(100) > 95) this.randDirection();
         boundCheck();
         this.tankRec.x = x;

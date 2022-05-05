@@ -12,6 +12,10 @@ import java.util.List;
  */
 public class GameModel {
     private Tank myTank = new Tank(200, 200, Direction.UP, this, Group.mainTank, false);
+
+    public List<GameObject> getGameObjectList() {
+        return gameObjectList;
+    }
     //public List<Bullet> bulletList = new ArrayList<>();  // 也类似生产者消费者模式中的缓存区。
     // public List<Tank> tanks = new ArrayList<>();
     // public List<Explode> explodeList = new ArrayList<>();
