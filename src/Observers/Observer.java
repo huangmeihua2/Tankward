@@ -1,5 +1,7 @@
 package Observers;
 
-public interface Observer {
+import java.io.Serializable;
+
+public interface Observer extends Serializable {
     void actionFire(EventFire eventFire);
 }

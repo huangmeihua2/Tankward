@@ -2,7 +2,9 @@ package collision.detection;
 
 import com.tank.GameObject;
 
-public interface Collider {
+import java.io.Serializable;
+
+public interface Collider extends Serializable {
 
     Boolean collid(GameObject gameObject1, GameObject gameObject2);
 

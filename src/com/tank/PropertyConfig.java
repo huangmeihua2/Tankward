@@ -1,9 +1,10 @@
 package com.tank;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.Properties;
 
-public class PropertyConfig {
+public class PropertyConfig implements Serializable {
     private static PropertyConfig propertyConfig;
     private Properties properties = new Properties();
     private Properties getColliderConfigProperties = new Properties();

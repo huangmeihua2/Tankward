@@ -3,6 +3,7 @@ package com.tank;
 import collision.detection.ColliderChain;
 
 import java.awt.*;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,7 +11,7 @@ import java.util.List;
  * 1.对于tankFrame来说是充当门面的角色，它会将客户端发来的paint的请求发送到各个子系统（tank\explode\bullet）中由各个子系统来去执行。
  * 2.对于tank\explode\bullet来说是调停者。
  */
-public class GameModel {
+public class GameModel implements Serializable {
     private Tank myTank = new Tank(200, 200, Direction.UP, this, Group.mainTank, false);
 
     public List<GameObject> getGameObjectList() {
@@ -72,6 +73,44 @@ public class GameModel {
             for (int j = i+1; j < gameObjectList.size(); j++) {
                 // 两两碰撞检测。
                 colliderChain.collid(gameObjectList.get(i),gameObjectList.get(j));
+            }
+        }
+    }
+    public void save(){
+        File file = new File("E:\\dowln codes\\save.data");
+        ObjectOutputStream objectOutputStream = null;
+
+        try {
+            objectOutputStream = new ObjectOutputStream(new FileOutputStream(file));
+            objectOutputStream.writeObject(myTank);
+            objectOutputStream.writeObject(gameObjectList);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }finally {
+            try {
+                objectOutputStream.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+    public void load(){
+        File file = new File("E:\\dowln codes\\save.data");
+        ObjectInputStream objectOutputStream = null;
+
+        try {
+            objectOutputStream = new ObjectInputStream(new FileInputStream(file));
+            myTank = (Tank)objectOutputStream.readObject();
+            gameObjectList = (List<GameObject>) objectOutputStream.readObject();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                objectOutputStream.close();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         }
     }

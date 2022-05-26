@@ -7,10 +7,8 @@ public class Person {
     int score;
     String name;
     Location location;
-
     private Person() {
     }
-
     public static class PersonBuilder {
         Person person = new Person();
 
@@ -20,7 +18,6 @@ public class Person {
             person.name = name;
             return this;
         }
-
         public PersonBuilder weight(double weight) {
             person.weight = weight;
             return this;
@@ -30,16 +27,12 @@ public class Person {
             person.score = score;
             return this;
         }
-
         public PersonBuilder builderLocation(Location location) {
             person.location = location;
             return this;
         }
-
         public Person build() {
             return person;
         }
     }
-
-
 }
